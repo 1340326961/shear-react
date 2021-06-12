@@ -1,15 +1,27 @@
-// import React from 'react';
-// import { render } from 'react-dom';
-// import ReactDemo from '../../src/index'; // 引入组件
-// const App = () => <ReactDemo />;
-// render(<App />, document.getElementById('root'));
-
-
-
-import React from 'react'
+import React from 'react';
+// import Shear from '../../src/index';
+const nv = 'https://img0.baidu.com/it/u=3036316726,676055399&fm=26&fmt=auto&gp=0.jpg';
+import Shear from 'shear-react';
+import 'shear-react/lib/main.min.css';
 import { render } from 'react-dom'
-import ReactDemo from 'react_hujianrui_demo';
-import 'react_hujianrui_demo/lib/main.min.css'; // ！需要引入样式！
-console.log('123')
-const App = () => <ReactDemo />;
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.Shear = React.createRef();
+    this.state = {}
+  }
+  onChange = (img) =>{
+    this.setState({img});
+  }
+  render() {
+    const {onChange} = this;
+    const { img } = this.state;
+    return <div className="wode" style={{width: '1000px'}}>
+      <button onClick={() =>this.Shear.current.cropImg()}>copy</button>
+      <Shear onChange={onChange} ref={this.Shear} width={1000} img={nv} crossOrigin="anonymous"/>
+      <img src={img} alt="图" />
+    </div>
+  }
+}
 render(<App />, document.getElementById('root'));

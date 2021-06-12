@@ -36,6 +36,12 @@ module.exports = merge(common, {
       commonjs2: "react-dom",
       commonjs: "react-dom",
       amd: "react-dom"
+    },
+    "mathjs": {
+      root: "mathjs",
+      commonjs2: "mathjs",
+      commonjs: "mathjs",
+      amd: "mathjs"
     }
   },
 });
