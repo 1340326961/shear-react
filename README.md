@@ -1,9 +1,9 @@
-#### Installation
+## Installation
 ***
 ```
 npm install --save react-cropper
 ```
-#### Example
+## Example
 ***
 ```javascript
 import React from 'react';
@@ -36,7 +36,7 @@ class App extends React.Component {
 render(<App />, document.getElementById('root'));
 ```
 
-#### Options
+## Options
 ***
 ### img
 
