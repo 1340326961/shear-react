@@ -373,7 +373,7 @@ class Shear extends React.Component {
             ): null}
           </div>
           {/* < img src={this.state.img} alt="裁剪后的" style={{width:imgW, height:imgH}} /> */}
-          {imgInfo ? (
+          {/* {imgInfo ? (
               <div style={{display:'flex'}}>
                 <div style={{width:imgW, height:imgH,overflow:'hidden'}}>
                   < img alt="图片" style={{
@@ -383,7 +383,7 @@ class Shear extends React.Component {
                   />
                 </div>
               </div>
-          ): null}
+          ): null} */}
         </div>
     );
   }
