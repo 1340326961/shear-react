@@ -79,7 +79,6 @@ class Shear extends React.Component {
         this.cropBoxInfo = this.moveBox.current.getBoundingClientRect();
         this.workAreaInfo = this.canvasBox.current.getBoundingClientRect();
         const {cropBoxWidth,cropBoxHeight} = this.state;
-        console.log(cropBoxWidth,cropBoxHeight)
         this.setState({
           imgW: cropBoxWidth,
           imgH: cropBoxHeight,
@@ -100,6 +99,7 @@ class Shear extends React.Component {
     this.cropBoxInfo = rect;
     this.readMove = true;
     this.workAreaInfo = this.canvasBox.current.getBoundingClientRect();
+    console.log(this.workAreaInfo.top)
     window.addEventListener('mousemove',this.boxMove);
     window.addEventListener('mouseup',this.boxUp);
   }
