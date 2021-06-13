@@ -32,7 +32,6 @@
 }
 .line {
   position: absolute;
-  background-color: hotpink;
 }
 .line_top {
   width: 100%;
@@ -65,9 +64,7 @@
 .spot {
   width: 4px;
   height: 4px;
-  background-color: hotpink;
   position: absolute;
-  //opacity: 0.5;
 }
 .spot_left_top {
   left: -3px;

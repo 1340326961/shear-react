@@ -27,9 +27,7 @@ class Shear extends React.Component {
       imgW: 0,
       imgH: 0,
       imgInfo:null,
-      sizeChangeW:0,
-      sizeChangeH:0,
-      aspectRatio :props.aspectRatio
+      aspectRatio :props.aspectRatio,
     }
   }
   readMove = false;
@@ -46,7 +44,8 @@ class Shear extends React.Component {
     crossOrigin: false,
     width: '100%',
     height: 'auto',
-    onChange: () =>{}
+    onChange: () =>{},
+    cropBoxColor:'hotpink'
   }
   createBoxClient = {
     x: 0,
@@ -100,6 +99,7 @@ class Shear extends React.Component {
     this.mouseDownY = offsetY;
     this.cropBoxInfo = rect;
     this.readMove = true;
+    this.workAreaInfo = this.canvasBox.current.getBoundingClientRect();
     window.addEventListener('mousemove',this.boxMove);
     window.addEventListener('mouseup',this.boxUp);
   }
@@ -112,8 +112,8 @@ class Shear extends React.Component {
     if (!this.readMove) return;
     const {clientX, clientY} = e;
     const { cropBoxInfo,workAreaInfo } = this;
-    let transformX = evaluate(`${clientX} - ${this.workAreaInfo.left} - ${this.mouseDownX}`);
-    let transformY = evaluate(`${clientY} - ${this.workAreaInfo.top} - ${this.mouseDownY}`);
+    let transformX = evaluate(`${clientX} - ${workAreaInfo.left} - ${this.mouseDownX}`);
+    let transformY = evaluate(`${clientY} - ${workAreaInfo.top} - ${this.mouseDownY}`);
     if (evaluate(`${clientX}-${this.mouseDownX}`) < workAreaInfo.left) transformX = '0';
     if (evaluate(`${clientX}-${this.mouseDownX} + ${cropBoxInfo.width}`) > workAreaInfo.right) transformX = evaluate(`${workAreaInfo.width}-${cropBoxInfo.width}`)
     if (evaluate(`${clientY}-${this.mouseDownY}`) < workAreaInfo.top) transformY = '0';
@@ -150,16 +150,17 @@ class Shear extends React.Component {
     e.preventDefault();
     this.readSpotMove = true;
     this.spotPosition = position;
+    this.workAreaInfo = this.canvasBox.current.getBoundingClientRect();
     window.addEventListener('mousemove',this.spotMove);
     window.addEventListener('mouseup',this.spotUp);
   }
   // 裁剪框缩放(都是按比例缩放的)
   spotMove = (e) => {
     if (!this.readSpotMove) return
-    const {sizeChangeW,sizeChangeH } = this.state;
     const {aspectRatio} = this.state;
     let {cropBoxWidth, cropBoxHeight,transformX, transformY,} = this.state;
     const {clientX, clientY} = e;
+    this.workAreaInfo = this.canvasBox.current.getBoundingClientRect();
     const { spotPosition, workAreaInfo} = this;
     let movedH = 0;
     let movedW = 0;
@@ -273,14 +274,12 @@ class Shear extends React.Component {
     const overflowY = evaluate(`${movedY} + ${cropBoxH} + ${workAreaInfo.top}`) >= workAreaInfo.bottom;
     const overflowX = evaluate(`${movedX} + ${cropBoxW} + ${workAreaInfo.left}`) >= workAreaInfo.right;
     if ((movedY <= 0 && !noCheckTop) ||( movedX <= 0 && !noCheckLeft) || (overflowY && !noCheckBottom) || (overflowX && !noCheckRight)) return;
-    if (cropBoxW <=0 || cropBoxH <=0) return this.spotPosition = oppositeDirection[this.spotPosition];
+    if (cropBoxW <=0 || cropBoxH <=0) this.spotPosition = oppositeDirection[this.spotPosition]
     this.setState({
       cropBoxWidth: cropBoxW,
       cropBoxHeight: cropBoxH,
       transformX: movedX,
       transformY: movedY,
-      sizeChangeW:sizeChangeW + movedW,
-      sizeChangeH:sizeChangeH + movedH
     })
   }
   spotUp = () => {
@@ -295,6 +294,7 @@ class Shear extends React.Component {
     this.createMoveBox = true;
     this.readSpotMove = true;
     const {clientX, clientY} = e;
+    this.workAreaInfo = this.canvasBox.current.getBoundingClientRect();
     this.createBoxClient = {
       x:clientX,
       y:clientY,
@@ -340,7 +340,7 @@ class Shear extends React.Component {
   }
   render() {
     const {transformX,transformY,cropBoxHeight,cropBoxWidth,imgInfo,imgW,imgH,} = this.state;
-    const {img, crossOrigin,width, height} = this.props;
+    const {img, crossOrigin,width, height,cropBoxColor} = this.props;
     if (!img) return <div>请传入图片链接</div>
     return (
         <div className="App" style={{width, height}}>
@@ -357,27 +357,24 @@ class Shear extends React.Component {
                   <div className="move_img_box">
                     <img alt="图片" style={{width: imgInfo.width_style,height: imgInfo.height_style,transform: `translate(-${transformX}px,-${transformY}px)`}} src={img}/>
                   </div>
-                  <div className="line_top line" onMouseDown={(e) => this.spotDown(e,'center_top')}></div>
-                  <div className="line_right line" onMouseDown={(e) => this.spotDown(e,'right_center')}></div>
-                  <div className="line_bottom line" onMouseDown={(e) => this.spotDown(e,'center_bottom')}></div>
-                  <div className="line_left line" onMouseDown={(e) => this.spotDown(e,'left_center')}></div>
-                  <div className="spot spot_left_top" onMouseDown={(e) => this.spotDown(e,'left_top')}></div>
-                  <div className="spot spot_center_top" onMouseDown={(e) => this.spotDown(e,'center_top')}></div>
-                  <div className="spot spot_right_top" onMouseDown={(e) => this.spotDown(e,'right_top')}></div>
-                  <div className="spot spot_right_center" onMouseDown={(e) => this.spotDown(e,'right_center')}></div>
-                  <div className="spot spot_right_bottom" onMouseDown={(e) => this.spotDown(e,'right_bottom')}></div>
-                  <div className="spot spot_center_bottom" onMouseDown={(e) => this.spotDown(e,'center_bottom')}></div>
-                  <div className="spot spot_left_bottom" onMouseDown={(e) => this.spotDown(e,'left_bottom')}></div>
-                  <div className="spot spot_left_center" onMouseDown={(e) => this.spotDown(e,'left_center')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="line_top line" onMouseDown={(e) => this.spotDown(e,'center_top')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="line_right line" onMouseDown={(e) => this.spotDown(e,'right_center')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="line_bottom line" onMouseDown={(e) => this.spotDown(e,'center_bottom')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="line_left line" onMouseDown={(e) => this.spotDown(e,'left_center')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="spot spot_left_top" onMouseDown={(e) => this.spotDown(e,'left_top')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="spot spot_center_top" onMouseDown={(e) => this.spotDown(e,'center_top')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="spot spot_right_top" onMouseDown={(e) => this.spotDown(e,'right_top')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="spot spot_right_center" onMouseDown={(e) => this.spotDown(e,'right_center')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="spot spot_right_bottom" onMouseDown={(e) => this.spotDown(e,'right_bottom')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="spot spot_center_bottom" onMouseDown={(e) => this.spotDown(e,'center_bottom')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="spot spot_left_bottom" onMouseDown={(e) => this.spotDown(e,'left_bottom')}></div>
+                  <div style={{backgroundColor:cropBoxColor}} className="spot spot_left_center" onMouseDown={(e) => this.spotDown(e,'left_center')}></div>
                 </div>
             ): null}
           </div>
-          {/* 裁剪框宽：{cropBoxWidth}； */}
-          {/* 裁剪框高：{cropBoxHeight} */}
           {/* < img src={this.state.img} alt="裁剪后的" style={{width:imgW, height:imgH}} /> */}
-          {/* {imgInfo ? (
+          {imgInfo ? (
               <div style={{display:'flex'}}>
-                < img src={this.state.img} alt="裁剪后的" style={{width:imgW, height:imgH}} />
                 <div style={{width:imgW, height:imgH,overflow:'hidden'}}>
                   < img alt="图片" style={{
                     width:evaluate(`${imgInfo.width_style} / ${cropBoxWidth} * ${imgW}`),
@@ -386,7 +383,7 @@ class Shear extends React.Component {
                   />
                 </div>
               </div>
-          ): null} */}
+          ): null}
         </div>
     );
   }
