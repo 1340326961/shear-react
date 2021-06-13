@@ -88,4 +88,5 @@ img标签的 crossOrigin属性，
 
 
 
-github：https://github.com/1340326961/shear-react
+github地址：https://github.com/1340326961/shear-react
+本人小菜鸡，自己写着玩，有一些瑕疵但是不影响大致使用，想加什么功能或则在什么节点上想暴露出哪些信息，可以在github上提bug（请写中文我英语不好），还望大佬们多多指教优化代码
