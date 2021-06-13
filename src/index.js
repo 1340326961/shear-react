@@ -99,7 +99,7 @@ class Shear extends React.Component {
     this.cropBoxInfo = rect;
     this.readMove = true;
     this.workAreaInfo = this.canvasBox.current.getBoundingClientRect();
-    console.log(this.workAreaInfo.top)
+    // console.log(this.workAreaInfo.top)
     window.addEventListener('mousemove',this.boxMove);
     window.addEventListener('mouseup',this.boxUp);
   }
@@ -160,7 +160,6 @@ class Shear extends React.Component {
     const {aspectRatio} = this.state;
     let {cropBoxWidth, cropBoxHeight,transformX, transformY,} = this.state;
     const {clientX, clientY} = e;
-    this.workAreaInfo = this.canvasBox.current.getBoundingClientRect();
     const { spotPosition, workAreaInfo} = this;
     let movedH = 0;
     let movedW = 0;
