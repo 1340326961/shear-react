@@ -2,7 +2,7 @@
 ## Installation
 ***
 ```
-npm install --save react-cropper
+npm install --save shear-react
 ```
 ## Example
 ***
