@@ -15,6 +15,7 @@ import React from 'react';
 import { render } from 'react-dom'
 // import Shear from '../../src/index';
 import Shear from 'shear-react';
+//  样式需要单独引入
 import 'shear-react/lib/main.min.css';
 
 class App extends React.Component {
