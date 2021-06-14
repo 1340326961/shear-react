@@ -51,14 +51,10 @@ class Shear extends React.Component {
     x: 0,
     y: 0
   }
-  componentDidMount() {
-    this.init();
-  }
   init = () => {
     let {aspectRatio} = this.state;
     const {img} = this.props;
     if (!img) return
-    window.onload = () => {
       const { current } = this.activeImg;
       const {naturalWidth, naturalHeight, offsetWidth, offsetHeight} = current;
       const shortSide = offsetWidth > offsetHeight ? offsetHeight : offsetWidth;
@@ -86,7 +82,6 @@ class Shear extends React.Component {
           transformY:evaluate(`${this.workAreaInfo.height} / 2 -${cropBoxHeight} / 2`),
         })
       })
-    }
   }
   boxDown = (e) => {
     e.preventDefault();
@@ -337,18 +332,21 @@ class Shear extends React.Component {
     window.removeEventListener('mousemove',this.workAreaMouseMove)
     window.removeEventListener('mouseup',this.createMoveBoxOver)
   }
+  activeImgOnload = () => {
+    this.init();
+  }
   render() {
     const {transformX,transformY,cropBoxHeight,cropBoxWidth,imgInfo,imgW,imgH,} = this.state;
     const {img, crossOrigin,width, height,cropBoxColor} = this.props;
-    if (!img) return <div>请传入图片链接</div>
+    if (!img) return <div>请传入图片</div>
     return (
         <div className="App" style={{width, height}}>
           <div className="canvas_box" ref={this.canvasBox} onMouseDown={this.workAreaMouseDown}>
             {crossOrigin ? (
               // use-credentials
-              <img ref={this.activeImg} crossOrigin={crossOrigin} className="canvas" src={img} alt="图片"/>
+              <img onLoad={this.activeImgOnload} ref={this.activeImg} crossOrigin={crossOrigin} className="canvas" src={img} alt="图片"/>
               ): (
-                <img ref={this.activeImg}  className="canvas" src={img} alt="图片"/>
+                <img onLoad={this.activeImgOnload}  ref={this.activeImg}  className="canvas" src={img} alt="图片"/>
               )}
             <div className="modal"></div>
             {imgInfo ? (
