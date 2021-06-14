@@ -1,6 +1,6 @@
 # shear-react
 ---
-![loading](https://raw.githubusercontent.com/1340326961/shear-react/main/example/src/shearImg.gif)
+![gif loading...](https://raw.githubusercontent.com/1340326961/shear-react/main/example/src/shearImg.gif)
 
 ## 注意！！1.0.7版本之前的版本有bug不可用请使用1.0.7及之后的版本
 ## Installation
@@ -13,32 +13,44 @@ npm install --save shear-react
 ```javascript
 import React from 'react';
 import { render } from 'react-dom'
+// import Shear from '../../src/index';
 import Shear from 'shear-react';
-const src = 'https://img0.baidu.com/it/u=3036316726,676055399&fm=26&fmt=auto&gp=0.jpg';
-// 需要单独引入样式
 import 'shear-react/lib/main.min.css';
-
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.Shear = React.createRef();
-    this.state = {}
+    this.state = {
+      file: null
+    }
   }
   onChange = (img) =>{
     this.setState({img});
   }
+  handleFileChange = (e) => {
+    const files = e.target.files[0];
+    var reader = new FileReader();
+       reader.readAsDataURL(files);
+       reader.onload = () => {
+        this.setState({
+          file:reader.result
+        })
+       };
+  }
   render() {
     const {onChange} = this;
-    const { img } = this.state;
+    const { img,file } = this.state;
     return <div className="wode" style={{width: '1000px',margin:'0 auto'}}>
+      <input id="file" onChange={this.handleFileChange} type="file"  name="file" multiple="multiple"></input>
       <button onClick={() =>this.Shear.current.cropImg()}>copy</button>
-      <Shear cropBoxColor="green" aspectRatio={16/9} onChange={onChange} ref={this.Shear} width={1000} img={src} crossOrigin="anonymous"/>
+      <Shear aspectRatio={1} onChange={onChange} ref={this.Shear} width={1000} img={file} crossOrigin="anonymous"/>
       <img src={img} alt="图" />
     </div>
   }
 }
 render(<App />, document.getElementById('root'));
+
 ```
 
 ## Options
