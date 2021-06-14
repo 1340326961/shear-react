@@ -1,8 +1,8 @@
 import React from 'react';
-import Shear from '../../src/index';
+// import Shear from '../../src/index';
 // const nv = require('./nv.jpg');
-// import Shear from 'shear-react';
-// import 'shear-react/lib/main.min.css';
+import Shear from 'shear-react';
+import 'shear-react/lib/main.min.css';
 import { render } from 'react-dom'
 
 class App extends React.Component {
