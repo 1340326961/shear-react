@@ -1,4 +1,8 @@
-####注意！！1.0.7版本之前的版本有bug不可用请使用1.0.7及之后的版本
+# shear-react
+--- 
+![avatar](https://gimg2.baidu.com/image_search/src=http%3A%2F%2F2c.zol-img.com.cn%2Fproduct%2F124_500x2000%2F748%2FceZOdKgDAFsq2.jpg&refer=http%3A%2F%2F2c.zol-img.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1626303916&t=723fb08a844513e5890504e5cfedc025)
+
+## 注意！！1.0.7版本之前的版本有bug不可用请使用1.0.7及之后的版本
 ## Installation
 ***
 ```
@@ -11,7 +15,7 @@ import React from 'react';
 import { render } from 'react-dom'
 import Shear from 'shear-react';
 const src = 'https://img0.baidu.com/it/u=3036316726,676055399&fm=26&fmt=auto&gp=0.jpg';
-// shear-react style
+// 需要单独引入样式
 import 'shear-react/lib/main.min.css';
 
 
@@ -89,5 +93,6 @@ img标签的 crossOrigin属性，
 
 
 
-github地址：https://github.com/1340326961/shear-react
+github：https://github.com/1340326961/shear-react
+
 本人小菜鸡，自己写着玩，有一些瑕疵但是不影响大致使用，想加什么功能或者在什么节点上想暴露出哪些信息或者出现了什么bug，可以在github上提bug（请写中文我英语不好），还望大佬们多多指教优化代码
