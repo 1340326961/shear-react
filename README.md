@@ -1,6 +1,6 @@
 # shear-react
 ---
-![avatar](https://exp-picture.cdn.bcebos.com/94af5fc1b727ac5386cdec992ecadce89148999e.jpg?x-bce-process=image%2Fresize%2Cm_lfit%2Cw_500%2Climit_1%2Fformat%2Cf_jpg%2Fquality%2Cq_80)
+![loading](https://raw.githubusercontent.com/1340326961/shear-react/main/example/src/shearImg.gif)
 
 ## 注意！！1.0.7版本之前的版本有bug不可用请使用1.0.7及之后的版本
 ## Installation
