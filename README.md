@@ -1,6 +1,6 @@
 # shear-react
---- 
-![avatar](https://gimg2.baidu.com/image_search/src=http%3A%2F%2F2c.zol-img.com.cn%2Fproduct%2F124_500x2000%2F748%2FceZOdKgDAFsq2.jpg&refer=http%3A%2F%2F2c.zol-img.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1626303916&t=723fb08a844513e5890504e5cfedc025)
+---
+![avatar](https://exp-picture.cdn.bcebos.com/94af5fc1b727ac5386cdec992ecadce89148999e.jpg?x-bce-process=image%2Fresize%2Cm_lfit%2Cw_500%2Climit_1%2Fformat%2Cf_jpg%2Fquality%2Cq_80)
 
 ## 注意！！1.0.7版本之前的版本有bug不可用请使用1.0.7及之后的版本
 ## Installation
@@ -69,20 +69,20 @@ render(<App />, document.getElementById('root'));
 ### width
  - Type: string
  - Default: 100%
- 
+
 工作区域的宽 默认100%
 ### height
  - Type: string
  - Default: auto
- 
+
 工作区域的高 默认自适应
 ### crossOrigin
  - Type: string
  - Default: undefined
  - [MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/crossOrigin)
  - Options：
- 	- anonymous
- 	- use-credentials
+    - anonymous
+     - use-credentials
 
 img标签的 crossOrigin属性，
 注： 图片跨域时需要设置否则裁剪失败（设置crossorigin 的前提是服务端允许你跨域获取图片，不允许设置了corssOrigin也没用）
