@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom'
-// import Shear from '../../src/index';
-import Shear from 'shear-react';
-import 'shear-react/lib/main.min.css';
+import Shear from '../../src/index';
+// import Shear from 'shear-react';
+// import 'shear-react/lib/main.min.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class App extends React.Component {
     return <div className="wode" style={{width: '1000px',margin:'0 auto'}}>
       <input id="file" onChange={this.handleFileChange} type="file"  name="file" multiple="multiple"></input>
       <button onClick={() =>this.Shear.current.cropImg()}>copy</button>
-      <Shear aspectRatio={1} onChange={onChange} ref={this.Shear} width={1000} img={file} crossOrigin="anonymous"/>
+      <Shear aspectRatio={16/9} onChange={onChange} ref={this.Shear} width={1000} img={file} crossOrigin="anonymous"/>
       <img src={img} alt="图" />
     </div>
   }

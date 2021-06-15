@@ -2,7 +2,7 @@
 ---
 ![gif loading...](https://raw.githubusercontent.com/1340326961/shear-react/main/example/src/shearImg.gif)
 
-## 注意！！1.0.7版本之前的版本有bug不可用请使用1.0.7及之后的版本
+## 注意！！1.0.12版本之前的版本有bug不可用请使用1.0.12及之后的版本
 ## Installation
 ***
 ```
@@ -88,7 +88,7 @@ render(<App />, document.getElementById('root'));
  - Type: string
  - Default: auto
 
-工作区域的高 默认自适应
+工作区域的高 默认自适应(如果设置了高导致img图片样式被拉伸或收缩裁剪出来的图片同样也会拉伸或收缩)
 ### crossOrigin
  - Type: string
  - Default: undefined

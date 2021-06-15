@@ -115,31 +115,70 @@ class Shear extends React.Component {
     if (evaluate(`${clientY}-${this.mouseDownY} + ${cropBoxInfo.height}`) > workAreaInfo.bottom) transformY = evaluate(`${workAreaInfo.height}-${cropBoxInfo.height}`)
     this.setState({transformX,transformY})
   }
+  // cropImg = () => {
+  //   const {transformX,transformY} = this.state;
+  //   const {width:imgW, height:imgH, width_style:imgWS, height_style:imgHS} = this.state.imgInfo;
+  //   const { width:cropW,height:cropH } = this.cropBoxInfo;
+  //   const { onChange } = this.props;
+  //   const proportion_w = evaluate(`(${cropW} / ${imgWS})`);
+  //   const proportion_h = evaluate(`(${cropH} / ${imgHS})`);
+  //   const proportion_x = evaluate(`(${transformX} / ${imgWS})`);
+  //   const proportion_y = evaluate(`(${transformY} / ${imgHS})`);
+
+  //   const canvasW = evaluate(`${imgW} * ${proportion_w}`);
+  //   const canvasH = evaluate(`${imgH} * ${proportion_h}`);
+  //   const sx = evaluate(`${imgW} * ${proportion_x}`);
+  //   const sy = evaluate(`${imgH} * ${proportion_y}`);
+
+  //   const canvas = document.createElement("canvas");
+  //   canvas.width =canvasW;
+  //   canvas.height =canvasH;
+  //   const ctx = canvas.getContext("2d");
+  //   ctx.drawImage(this.activeImg.current, sx, sy, canvasW,canvasH,0,0, canvasW, canvasH);
+  //   const res = canvas.toDataURL('image/jpeg');
+  //   this.setState({img:res});
+  //   onChange(res)
+  //   return res
+  // }
+
   cropImg = () => {
-    const {transformX,transformY} = this.state;
+    const {transformX,transformY,aspectRatio} = this.state;
     const {width:imgW, height:imgH, width_style:imgWS, height_style:imgHS} = this.state.imgInfo;
     const { width:cropW,height:cropH } = this.cropBoxInfo;
     const { onChange } = this.props;
     const proportion_w = evaluate(`(${cropW} / ${imgWS})`);
-    const proportion_h = evaluate(`(${cropH} / ${imgHS})`);
     const proportion_x = evaluate(`(${transformX} / ${imgWS})`);
     const proportion_y = evaluate(`(${transformY} / ${imgHS})`);
+    const proportion_img_w = evaluate(`(${imgW} / ${imgWS})`);
+    const proportion_img_h = evaluate(`(${imgH} / ${imgHS})`);
 
     const canvasW = evaluate(`${imgW} * ${proportion_w}`);
-    const canvasH = evaluate(`${imgH} * ${proportion_h}`);
+    const canvasH = evaluate(`${canvasW} / ${aspectRatio}`);
     const sx = evaluate(`${imgW} * ${proportion_x}`);
     const sy = evaluate(`${imgH} * ${proportion_y}`);
-
+    const width = evaluate(`${cropW} * ${proportion_img_w}`);
+    const height = evaluate(`${cropH} * ${proportion_img_h}`);
     const canvas = document.createElement("canvas");
     canvas.width =canvasW;
     canvas.height =canvasH;
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(this.activeImg.current, sx, sy, canvasW,canvasH,0,0, canvasW, canvasH);
+    // drawImage 参数说明
+    // 图片
+    // 被裁剪图片的X轴坐标
+    // 被裁剪图片的Y轴坐标
+    // 剪图片的多少宽
+    // 剪图片的多少高
+    // 画布的起点X轴
+    // 画布的起点Y轴
+    // 用画布的多少宽
+    // 用画布的多少高
+    ctx.drawImage(this.activeImg.current, sx, sy, width,height,0,0, canvasW, canvasH);
     const res = canvas.toDataURL('image/jpeg');
     this.setState({img:res});
     onChange(res)
     return res
   }
+
   spotDown =(e,position) => {
     e.stopPropagation();
     e.preventDefault();
@@ -299,7 +338,7 @@ class Shear extends React.Component {
   workAreaMouseMove = (e) => {
       const {x, y} = this.createBoxClient;
       const { clientX,clientY } = e;
-      if (Math.abs(x - clientY) < 10 || Math.abs(y - clientY) < 10) return
+      // if (Math.abs(x - clientY) < 10 || Math.abs(y - clientY) < 10) return
       if (this.createMoveBox) {
         if (x < clientX) {
           if (y > clientY) {
@@ -329,6 +368,7 @@ class Shear extends React.Component {
   createMoveBoxOver = () =>{
     this.createBoxClient = null;
     this.readSpotMove = false;
+    this.cropBoxInfo = this.moveBox.current.getBoundingClientRect();
     window.removeEventListener('mousemove',this.workAreaMouseMove)
     window.removeEventListener('mouseup',this.createMoveBoxOver)
   }
@@ -340,13 +380,13 @@ class Shear extends React.Component {
     const {img, crossOrigin,width, height,cropBoxColor} = this.props;
     if (!img) return <div>请传入图片</div>
     return (
-        <div className="App" style={{width, height}}>
+        <div className="shearReact" style={{width}}>
           <div className="canvas_box" ref={this.canvasBox} onMouseDown={this.workAreaMouseDown}>
             {crossOrigin ? (
               // use-credentials
-              <img onLoad={this.activeImgOnload} ref={this.activeImg} crossOrigin={crossOrigin} className="canvas" src={img} alt="图片"/>
+              <img style={{height}} onLoad={this.activeImgOnload} ref={this.activeImg} crossOrigin={crossOrigin} className="canvas" src={img} alt="图片"/>
               ): (
-                <img onLoad={this.activeImgOnload}  ref={this.activeImg}  className="canvas" src={img} alt="图片"/>
+                <img style={{height}} onLoad={this.activeImgOnload}  ref={this.activeImg}  className="canvas" src={img} alt="图片"/>
               )}
             <div className="modal"></div>
             {imgInfo ? (
