@@ -338,7 +338,7 @@ class Shear extends React.Component {
   workAreaMouseMove = (e) => {
       const {x, y} = this.createBoxClient;
       const { clientX,clientY } = e;
-      // if (Math.abs(x - clientY) < 10 || Math.abs(y - clientY) < 10) return
+      if (Math.abs(x - clientY) < 10 || Math.abs(y - clientY) < 10) return
       if (this.createMoveBox) {
         if (x < clientX) {
           if (y > clientY) {
